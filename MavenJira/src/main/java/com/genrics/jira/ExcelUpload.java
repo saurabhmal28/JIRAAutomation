@@ -77,7 +77,7 @@ public class ExcelUpload implements AutoConstant {
 		FileInputStream fis = new FileInputStream(excel_path);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		
-		Sheet sheet= wb.getSheetAt(1);
+		Sheet sheet= wb.getSheet("Incident");
 		
 		for(Row row : sheet)
 		{
@@ -119,6 +119,59 @@ public class ExcelUpload implements AutoConstant {
 		
 		
 	}
+
+	public List<String> getWorkOrderNumber() throws IOException
+	{
+		List<String> inc=new ArrayList<String>();
+		List<String> wo=new ArrayList<String>();
+		
+		FileInputStream fis = new FileInputStream(excel_path);
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		
+		Sheet sheet= wb.getSheet("Workorder");
+		
+		for(Row row : sheet)
+		{
+			for (Cell cell : row)
+			{
+				if(cell.getCellType() == cell.getCellType().STRING )
+				{
+					/* System.out.println(cell.getStringCellValue() + "\t"); */
+					
+					/* System.out.println(cell.getColumnIndex()); */
+					 if(cell.getColumnIndex() == 0)
+					 {
+						 
+						 wo.add( cell.getStringCellValue());
+					 }
+					 else if(cell.getColumnIndex() == 1)
+					 {
+						 inc.add( cell.getStringCellValue());
+					 }
+					 
+					 
+				}
+				else if(cell.getCellType()  == cell.getCellType().NUMERIC)
+				{
+					System.out.println(cell.getNumericCellValue() + "\t");
+				}
+				else if(cell.getCellType() == cell.getCellType().FORMULA)
+				{
+					System.out.println(cell.getCellFormula() + "\t");
+					
+				}			
+			}
+		}
+		
+		
+		return wo;
+		
+		
+		
+		
+	}
+
+	
 
 
 

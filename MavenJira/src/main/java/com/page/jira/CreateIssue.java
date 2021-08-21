@@ -59,20 +59,46 @@ public class CreateIssue implements AutoConstant{
 	@FindBy(id = "create-issue-submit")
 	WebElement create;
 	
-	int executionumber = 0;
+	@FindBy(xpath = "//input[@id = 'issuetype-field']")
+	WebElement issuetype;
+	
+	@FindBy(id = "customfield_10149")
+	WebElement requesttype;
+	
+	int executionumber_inc = 0;
+	int executionumber_wo = 0;
 	
 	public void createIssue(String sum, String flag) throws AWTException, InterruptedException
 	{
+		
+		if (executionumber_inc == 0)
+		{	issuetype.click();
+			Robot r = new Robot();
+			r.keyPress(KeyEvent.VK_CONTROL );
+			r.keyPress(KeyEvent.VK_A);
+			r.keyPress(KeyEvent.VK_BACK_SPACE);
+			r.keyRelease(KeyEvent.VK_CONTROL );
+			r.keyRelease(KeyEvent.VK_A);
+			r.keyRelease(KeyEvent.VK_BACK_SPACE);
+			issuetype.sendKeys("Incident-P4");
+			Thread.sleep(1000);
+			issuetype.sendKeys(Keys.ENTER);
+			Thread.sleep(2000);
+		}
+		
 		summary.sendKeys(sum);
+		
+		
+		
 		
 		BasePage bp = new BasePage();
 		
 		bp.selectByVisibleText(incidenttype, "03 Data Correction");
-		if (executionumber == 0)
+		if (executionumber_inc == 0)
 		{
 		Remedyno.sendKeys(sum);
 		}
-		else if (executionumber > 0 )
+		else if (executionumber_inc > 0 )
 		{
 			Remedyno.click();
 			Robot r = new Robot();
@@ -101,7 +127,7 @@ public class CreateIssue implements AutoConstant{
 		Thread.sleep(1000);
 		reporter.sendKeys(Keys.ENTER);
 		
-		if(executionumber == 0)
+		if(executionumber_inc == 0)
 		{
 		assigntome.click();
 		}
@@ -113,10 +139,16 @@ public class CreateIssue implements AutoConstant{
 		String formatdate= date.getLocalDate();
 		
 		
-		if(executionumber == 0)
+		if(executionumber_inc == 0)
 		{
 			duedate.sendKeys(formatdate);
 		}
+		
+		if(executionumber_inc == 0)
+		{
+			createAnother.click();
+		}
+		
 		
 		
 		if (flag.equalsIgnoreCase("x"))
@@ -127,9 +159,105 @@ public class CreateIssue implements AutoConstant{
 		}
 		
 		 create.click();
-		executionumber ++ ;
+		 executionumber_inc ++ ;
 		
-		System.out.println(executionumber);
+		
+		
+		
+		
+	}
+	
+	public void createWorkorder(String sum, String flag) throws AWTException, InterruptedException
+	{
+		
+     
+      
+		BasePage bp = new BasePage();
+		if (executionumber_wo == 0)
+		{	issuetype.click();
+			Robot r = new Robot();
+			r.keyPress(KeyEvent.VK_CONTROL );
+			r.keyPress(KeyEvent.VK_A);
+			r.keyPress(KeyEvent.VK_BACK_SPACE);
+			r.keyRelease(KeyEvent.VK_CONTROL );
+			r.keyRelease(KeyEvent.VK_A);
+			r.keyRelease(KeyEvent.VK_BACK_SPACE);
+			issuetype.sendKeys("Work");
+			Thread.sleep(1000);
+			issuetype.sendKeys(Keys.ENTER);
+			Thread.sleep(2000);
+		}
+		
+		 summary.sendKeys(sum);
+		
+		bp.selectByVisibleText(requesttype, "06 Data Extraction");
+		if (executionumber_wo == 0)
+		{
+		Remedyno.sendKeys(sum);
+		}
+		else if (executionumber_wo > 0 )
+		{
+			Remedyno.click();
+			Robot r = new Robot();
+			r.keyPress(KeyEvent.VK_CONTROL );
+			r.keyPress(KeyEvent.VK_A);
+			r.keyPress(KeyEvent.VK_BACK_SPACE);
+			r.keyRelease(KeyEvent.VK_CONTROL );
+			r.keyRelease(KeyEvent.VK_A);
+			r.keyRelease(KeyEvent.VK_BACK_SPACE);
+			
+			Remedyno.sendKeys(sum);
+			
+		}
+		descrip.sendKeys(description);		
+		
+		Robot r = new Robot();
+		reporter.click();
+		r.keyPress(KeyEvent.VK_CONTROL );
+		r.keyPress(KeyEvent.VK_A);
+		r.keyPress(KeyEvent.VK_BACK_SPACE);
+		r.keyRelease(KeyEvent.VK_CONTROL );
+		r.keyRelease(KeyEvent.VK_A);
+		r.keyRelease(KeyEvent.VK_BACK_SPACE);
+		
+		reporter.sendKeys("Shwetang");
+		Thread.sleep(1000);
+		reporter.sendKeys(Keys.ENTER);
+		
+		if(executionumber_wo == 0)
+		{
+		assigntome.click();
+		}
+		
+		startdate.click();
+		startdate.sendKeys(Keys.ENTER);
+		
+		DateTime date = new DateTime();
+		String formatdate= date.getLocalDate();
+		
+		
+		if(executionumber_wo == 0)
+		{
+			duedate.sendKeys(formatdate);
+		}
+		
+		if(executionumber_wo == 0)
+		{
+			createAnother.click();
+		}
+		
+		
+		
+		if (flag.equalsIgnoreCase("a"))
+		{
+		 
+			createAnother.click();
+			System.out.println(flag);
+			
+		}
+		
+		 create.click();
+		 executionumber_wo ++ ;
 		
 		
 		
